@@ -1,16 +1,17 @@
 import { useTexture } from "@react-three/drei";
 import { useLoader, useThree } from "@react-three/fiber";
-import { useMemo, type FC } from "react";
+import { useMemo, type FC, useEffect, useState } from "react";
 import { Mesh } from "three";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 
 type RockProps = {
   onClick: (name: string | null, target: [number, number, number]) => void;
   targetRoute: string | null;
+  modelUrl: string;
 };
 
-const Rock: FC<RockProps> = ({ onClick, targetRoute }) => {
-  const obj = useLoader(OBJLoader, "/model/model-1.obj");
+const Rock: FC<RockProps> = ({ onClick, targetRoute, modelUrl }) => {
+  const obj = useLoader(OBJLoader, `http://192.168.50.223:1337${modelUrl}`);
   const texture = useTexture("/model/model.webp");
   const geometry = useMemo(() => {
     let g;
