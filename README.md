@@ -25,5 +25,5 @@ Because React Native is not able to fully handle three.js with camera controls, 
 - Javascript
 - Typescript
 - React
-- Thre
+- Three.js
 - Tailwind
