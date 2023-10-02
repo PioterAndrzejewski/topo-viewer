@@ -1,5 +1,5 @@
 {
-  "name": "viewer",
+  "name": "topo-viewer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
