@@ -12,10 +12,6 @@ type RockProps = {
 };
 
 const Route: FC<RockProps> = ({ onClick, name, isActive }) => {
-  useThree(({ camera }) => {
-    camera.position.set(8, 6, 10);
-  });
-
   const obj = useLoader(OBJLoader, `/model/${name}.obj`);
   const geometry = useMemo(() => {
     let g;

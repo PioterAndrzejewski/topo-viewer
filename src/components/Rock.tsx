@@ -6,9 +6,10 @@ import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 
 type RockProps = {
   onClick: (name: string | null, target: [number, number, number]) => void;
+  targetRoute: string | null;
 };
 
-const Rock: FC<RockProps> = ({ onClick }) => {
+const Rock: FC<RockProps> = ({ onClick, targetRoute }) => {
   const obj = useLoader(OBJLoader, "/model/model-1.obj");
   const texture = useTexture("/model/model.webp");
   const geometry = useMemo(() => {
