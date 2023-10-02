@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState, Suspense } from "react";
+import "./App.css";
+import { OrbitControls } from "@react-three/drei/core";
+import { Box } from "@react-three/drei/core";
+import { Vector3 } from "three";
+import { ThreeEvent } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
+import Rock from "./components/Rock";
 
 function App() {
+  const [target, setTarget] = useState<Vector3 | undefined>(undefined);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className='h-screen w-full'>
+      <Canvas>
+        <OrbitControls
+          target={target}
+          onDoubleClick={() => setTarget(undefined)}
+        />
+        <ambientLight intensity={0.4} />
+        <directionalLight position={[0, 5, 5]} />
+        <Box
+          position={[10, 10, 10]}
+          onClick={(obj: ThreeEvent<MouseEvent>) =>
+            setTarget(obj.object.position)
+          }
         >
-          Learn React
-        </a>
-      </header>
+          <meshBasicMaterial color='red' />
+        </Box>
+        <Suspense fallback={null}>
+          <Rock />
+        </Suspense>
+      </Canvas>
     </div>
   );
 }
