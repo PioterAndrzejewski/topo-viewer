@@ -9,11 +9,12 @@ type RockProps = {
   onClick: (name: string | null, target: [number, number, number]) => void;
   targetRoute: string | null;
   modelUrl: string;
+  materialUrl: string;
 };
 
-const Rock: FC<RockProps> = ({ onClick, targetRoute, modelUrl }) => {
+const Rock: FC<RockProps> = ({ onClick, modelUrl, materialUrl }) => {
   const obj = useLoader(OBJLoader, `${apiUrl}${modelUrl}`);
-  const texture = useTexture("/model/model.webp");
+  const texture = useTexture(`${apiUrl}${materialUrl}`);
   const geometry = useMemo(() => {
     let g;
     obj.traverse((c) => {

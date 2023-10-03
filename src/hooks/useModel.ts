@@ -8,7 +8,8 @@ export const useModel = (id: string) => {
   useEffect(()=>{
     const handleGetModel = async () => {
       const modelData = await getModelData(id)
-      setModelUrl(modelData.data.attributes.model_main.data.attributes.url);
+      setModelUrl(modelData.attributes.model_main.data.attributes.url);
+      setMaterialUrl(modelData.attributes.model_txt.data.attributes.url)
     };
 
     handleGetModel();

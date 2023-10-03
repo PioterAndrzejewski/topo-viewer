@@ -43,6 +43,7 @@ function App() {
             onClick={handleTargetChange}
             targetRoute={activeRoute}
             modelUrl={modelUrl}
+            materialUrl={materialUrl}
           />
         </Suspense>
         {routes.map((route) => {
