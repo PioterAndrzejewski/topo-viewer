@@ -7,23 +7,14 @@ import Route from "./components/Route";
 import PositionHandler from "./components/PositionHandler";
 
 import { Coordinates } from "./types/types";
-import { authService } from "./services/auth";
-import { useModel } from "./hooks/useModel";
+import { useRock } from "./hooks/useRock";
 
 function App() {
   const [target, setTarget] = useState<Coordinates>([0, 0, 0]);
   const [activeRoute, setActiveRoute] = useState<null | string>(null);
-  const { modelUrl, materialUrl } = useModel("1");
-
-  const routes = [
-    "droga_001",
-    "droga_002",
-    "droga_003",
-    "droga_004",
-    "droga_005",
-    "droga_006",
-    "droga_007",
-  ];
+  const { modelUrl, materialUrl, routes } = useRock(
+    "7bdea9b7-41c1-4d30-8894-663f6c9f25f2",
+  );
 
   const handleTargetChange = (
     name: string | null,
@@ -46,18 +37,27 @@ function App() {
             materialUrl={materialUrl}
           />
         </Suspense>
-        {routes.map((route) => {
-          return (
-            <Suspense key={route}>
-              <Route
-                name={route}
-                onClick={handleTargetChange}
-                isActive={route === activeRoute}
-              />
-            </Suspense>
-          );
-        })}
-        <PositionHandler target={target} activeRoute={activeRoute} />
+        {routes &&
+          routes.map((route) => {
+            return (
+              <Suspense key={route.uuid}>
+                <Route
+                  name={route.name}
+                  uuid={route.uuid}
+                  pathUrl={route.pathUrl}
+                  ringsUrl={route.ringsUrl}
+                  onClick={handleTargetChange}
+                  isActive={route.uuid === activeRoute}
+                />
+              </Suspense>
+            );
+          })}
+        <PositionHandler
+          target={target}
+          activeRoute={
+            routes?.find((route) => route.uuid === activeRoute)?.name || null
+          }
+        />
       </Canvas>
     </div>
   );

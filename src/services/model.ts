@@ -1,5 +1,8 @@
 import { urlConfig } from './config';
 import { authService } from './auth';
+import { Coordinates } from '../types/types';
+
+
 
 enum ExhibitionType {
   North = "north",
@@ -22,23 +25,15 @@ enum PopularityType {
   Low = "low",
 }
 
-type RockData = {
-  attributes: {
-    climbing_restricted: boolean;
-    createdAt: string;
-    exhibition: ExhibitionType;
-    formation: FormationType;
-    height: number;
-    loose_rocks: boolean;
-    name: string;
-    popularity: PopularityType;
-    published_at: string;
-    recommented: boolean;
-    updatedAt: string;
-    uuid: string;
-    walk_distance: number;
-  },
-  id: number,
+enum RouteTypes {
+  Trad = "trad",
+  Sport = "sport",
+  Boulder = "boulder",
+}
+
+type ApiCoordinates = {
+  latitude: number;
+  longtitude: number;
 }
 
 type ImageFormat = {
@@ -82,7 +77,23 @@ type MediaData = {
   id: number;
 }
 
-type ModelData  = {
+type RouteModelData = {
+  id: string;
+  attributes: {
+    createdAt: string;
+    publishedAt: string;
+    route_name: string;
+    updatedAt: string;
+    rings_model: {
+      data: MediaData;
+    };
+    route_model: {
+      data: MediaData;
+    }
+  }
+}
+
+type ModelRockData  = {
   attributes: {
     created_at: string;
     published_at: string;
@@ -92,16 +103,89 @@ type ModelData  = {
     uuid: string;
     model_main: {data: MediaData};
     model_txt: {data: MediaData};
-    routes: MediaData[];
   },
   id: number;
 }
 
-export const getModelData = async (id: string) => {
+type RouteData = {
+  attributes: {
+    Grade: number;
+    Name: string;
+    Type: RouteTypes;
+    createdAt: string;
+    display_name: string;
+    publishedAt: string;
+    updatedAt: string;
+    uuid: string;
+    model_route: {
+      data: RouteModelData;
+    }
+  },
+  id: number;
+}
+
+type AreaData = {
+  id: number;
+  attributes: {
+    cover: {
+      data: MediaData
+    };
+    createdAt: string;
+    location: ApiCoordinates;
+    name: string;
+    publishedAt: string;
+    updatedAt: string;
+    uuid: string;
+  }
+}
+
+type SectorData = {
+  id: number;
+  attributes: {
+    area: {
+      data: AreaData
+    };
+    createdAt: string;
+    location: ApiCoordinates;
+    name: string;
+    publishedAt: string;
+    updatedAt: string;
+    uuid: string;
+  }
+}
+
+type RockData = {
+  attributes: {
+    coordinates: ApiCoordinates;
+    climbing_restricted: boolean;
+    createdAt: string;
+    exhibition: ExhibitionType;
+    formation: FormationType;
+    height: number;
+    loose_rocks: boolean;
+    name: string;
+    popularity: PopularityType;
+    published_at: string;
+    recommented: boolean;
+    model_rock: {
+      data: ModelRockData
+    }
+    routes: {
+      data: RouteData[];
+    };
+    sector: {
+      data: SectorData;
+    }
+    updatedAt: string;
+    uuid: string;
+    walk_distance: number;
+  },
+  id: number,
+}
+
+export const getRockData = async (id: string) => {
   const { data: {data} } = await authService.get(
-    urlConfig.model.info(id),
+    urlConfig.rock.info(id)
   );
-  console.log(data)
-  console.log(ExhibitionType.North)
-  return data as ModelData;
+  return data[0] as RockData;
 }
