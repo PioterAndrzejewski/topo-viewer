@@ -1,48 +1,19 @@
 import { useState, Suspense, useEffect } from "react";
 import "./App.css";
 import { Canvas } from "@react-three/fiber";
+
 import Rock from "./components/Rock";
 import Route from "./components/Route";
 import PositionHandler from "./components/PositionHandler";
-import axios from "axios";
 
-export type Coordinates = [number, number, number];
-
-export const authService = axios.create({
-  headers: {
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjk2Mjg0MzQwLCJleHAiOjE2OTg4NzYzNDB9.tGMSOY6BCd4CpuuzCFOqciy-E8r4ktYTTkz4KMGrZGI`,
-  },
-});
+import { Coordinates } from "./types/types";
+import { authService } from "./services/auth";
+import { useModel } from "./hooks/useModel";
 
 function App() {
   const [target, setTarget] = useState<Coordinates>([0, 0, 0]);
   const [activeRoute, setActiveRoute] = useState<null | string>(null);
-  const [modelUrl, setModelUrl] = useState("");
-
-  // useEffect(() => {
-  //   const handleLogin = async () => {
-  //     const { data } = await axios.post(
-  //       "http://localhost:1337/api/auth/local/",
-  //       {
-  //         identifier: "mikel@aaa.pl",
-  //         password: "password",
-  //       },
-  //     );
-  //     console.log(data);
-  //   };
-  //   handleLogin();
-  // }, []);
-
-  useEffect(() => {
-    const handleGetModel = async () => {
-      const { data } = await authService.get(
-        "http://192.168.50.223:1337/api/models/1?populate=*",
-      );
-      console.log(data.data.attributes.model_main.data.attributes.url);
-      setModelUrl(data.data.attributes.model_main.data.attributes.url);
-    };
-    handleGetModel();
-  }, []);
+  const { modelUrl, materialUrl } = useModel("1");
 
   const routes = [
     "droga_001",

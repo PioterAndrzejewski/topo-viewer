@@ -2,7 +2,7 @@ import { type FC, useEffect, useState } from "react";
 import { OrbitControls } from "@react-three/drei/core";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
-import type { Coordinates } from "../App";
+import type { Coordinates } from "../types/types";
 
 type PositionHandlerProps = {
   target: Coordinates;
