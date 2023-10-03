@@ -11,6 +11,7 @@ type RockProps = {
   ringsUrl: string;
   pathUrl: string;
   uuid: string;
+  outlineUrl: string;
 };
 
 const Route: FC<RockProps> = ({
@@ -19,6 +20,7 @@ const Route: FC<RockProps> = ({
   isActive,
   pathUrl,
   ringsUrl,
+  outlineUrl,
   uuid,
 }) => {
   const path = useLoader(OBJLoader, `${apiUrl}${pathUrl}`);
@@ -32,6 +34,7 @@ const Route: FC<RockProps> = ({
     });
     return g;
   }, [path]);
+
   const rings = useLoader(OBJLoader, `${apiUrl}${ringsUrl}`);
   const ringsGeometry = useMemo(() => {
     let g;
@@ -44,8 +47,44 @@ const Route: FC<RockProps> = ({
     return g;
   }, [rings]);
 
+  const outline = useLoader(OBJLoader, `${apiUrl}${outlineUrl}`);
+  const outlineGeometry = useMemo(() => {
+    let g;
+    outline.traverse((c) => {
+      if (c.type === "Mesh") {
+        const _c = c as Mesh;
+        g = _c.geometry;
+      }
+    });
+    return g;
+  }, [outline]);
+
   return (
     <group>
+      <mesh
+        geometry={pathGeometry}
+        scale={1}
+        onDoubleClick={(obj) => {
+          obj.stopPropagation();
+          onClick(uuid, [obj.point.x, obj.point.y, obj.point.z]);
+        }}
+      >
+        <meshPhysicalMaterial
+          color='black'
+          transparent={true}
+          opacity={isActive ? 0.8 : 0.2}
+        />
+      </mesh>
+      <mesh
+        geometry={outlineGeometry}
+        scale={1}
+        onDoubleClick={(obj) => {
+          obj.stopPropagation();
+          onClick(uuid, [obj.point.x, obj.point.y, obj.point.z]);
+        }}
+      >
+        <meshPhysicalMaterial color='red' transparent={true} visible={false} />
+      </mesh>
       <mesh
         geometry={ringsGeometry}
         scale={1}
@@ -57,21 +96,7 @@ const Route: FC<RockProps> = ({
         <meshPhysicalMaterial
           color='blue'
           transparent={true}
-          opacity={isActive ? 0.8 : 0.2}
-        />
-      </mesh>
-      <mesh
-        geometry={pathGeometry}
-        scale={1}
-        onDoubleClick={(obj) => {
-          obj.stopPropagation();
-          onClick(uuid, [obj.point.x, obj.point.y, obj.point.z]);
-        }}
-      >
-        <meshPhysicalMaterial
-          color='red'
-          transparent={true}
-          opacity={isActive ? 0.4 : 0.2}
+          opacity={isActive ? 1 : 0.2}
         />
       </mesh>
     </group>

@@ -48,6 +48,7 @@ function App() {
                   ringsUrl={route.ringsUrl}
                   onClick={handleTargetChange}
                   isActive={route.uuid === activeRoute}
+                  outlineUrl={route.outlineUrl}
                 />
               </Suspense>
             );

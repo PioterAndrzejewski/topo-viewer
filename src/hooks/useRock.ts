@@ -29,6 +29,9 @@ export const useRock = (id: string) => {
             ringsUrl:
               route.attributes.model_route.data.attributes.rings_model.data
                 .attributes.url,
+            outlineUrl:
+              route.attributes.model_route.data.attributes.outline_model.data
+                .attributes.url,
           };
         });
       setRoutes(routesShortData);

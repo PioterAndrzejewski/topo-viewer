@@ -90,6 +90,9 @@ type RouteModelData = {
     route_model: {
       data: MediaData;
     }
+    outline_model: {
+      data: MediaData;
+    }
   }
 }
 

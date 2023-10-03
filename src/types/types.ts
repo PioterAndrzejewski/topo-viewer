@@ -5,4 +5,5 @@ export type RouteModelShortData = {
   name: string;
   pathUrl: string;
   ringsUrl: string;
+  outlineUrl: string;
 }
