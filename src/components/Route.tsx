@@ -70,9 +70,9 @@ const Route: FC<RockProps> = ({
         }}
       >
         <meshPhysicalMaterial
-          color='black'
+          color='#e100ff'
           transparent={true}
-          opacity={isActive ? 0.8 : 0.2}
+          opacity={isActive ? 0.8 : 0.5}
         />
       </mesh>
       <mesh
@@ -83,7 +83,7 @@ const Route: FC<RockProps> = ({
           onClick(uuid, [obj.point.x, obj.point.y, obj.point.z]);
         }}
       >
-        <meshPhysicalMaterial color='red' transparent={true} visible={false} />
+        <meshPhysicalMaterial visible={false} />
       </mesh>
       <mesh
         geometry={ringsGeometry}
@@ -94,7 +94,7 @@ const Route: FC<RockProps> = ({
         }}
       >
         <meshPhysicalMaterial
-          color='blue'
+          color='#ddd'
           transparent={true}
           opacity={isActive ? 1 : 0.2}
         />
