@@ -38,25 +38,23 @@ function App() {
           />
         </Suspense>
         {routes &&
-          routes.map((route) => {
-            return (
-              <Suspense key={route.uuid}>
-                <Route
-                  name={route.name}
-                  uuid={route.uuid}
-                  pathUrl={route.pathUrl}
-                  ringsUrl={route.ringsUrl}
-                  onClick={handleTargetChange}
-                  isActive={route.uuid === activeRoute}
-                  outlineUrl={route.outlineUrl}
-                />
-              </Suspense>
-            );
-          })}
+          routes.map((route) => (
+            <Suspense key={route.uuid}>
+              <Route
+                name={route.name}
+                uuid={route.uuid}
+                pathUrl={route.pathUrl}
+                ringsUrl={route.ringsUrl}
+                onClick={handleTargetChange}
+                isActive={route.uuid === activeRoute}
+                outlineUrl={route.outlineUrl}
+              />
+            </Suspense>
+          ))}
         <PositionHandler
           target={target}
           activeRoute={
-            routes?.find((route) => route.uuid === activeRoute)?.name || null
+            routes?.find((route) => route.uuid === activeRoute) || null
           }
         />
       </Canvas>

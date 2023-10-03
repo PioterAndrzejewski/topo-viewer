@@ -112,7 +112,7 @@ type ModelRockData  = {
 
 type RouteData = {
   attributes: {
-    Grade: number;
+    grade: number;
     Name: string;
     Type: RouteTypes;
     createdAt: string;

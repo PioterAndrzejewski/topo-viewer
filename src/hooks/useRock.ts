@@ -23,6 +23,7 @@ export const useRock = (id: string) => {
           return {
             uuid: route.attributes.uuid,
             name: route.attributes.display_name,
+            grade: route.attributes.grade,
             pathUrl:
               route.attributes.model_route.data.attributes.route_model.data
                 .attributes.url,

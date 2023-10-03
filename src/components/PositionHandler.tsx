@@ -2,11 +2,13 @@ import { type FC, useEffect, useState } from "react";
 import { OrbitControls } from "@react-three/drei/core";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
-import type { Coordinates } from "../types/types";
+import type { Coordinates, RouteModelShortData } from "../types/types";
+
+import { grades } from "../types/types";
 
 type PositionHandlerProps = {
   target: Coordinates;
-  activeRoute: string | null;
+  activeRoute: RouteModelShortData | null;
 };
 
 const PositionHandler: FC<PositionHandlerProps> = ({ target, activeRoute }) => {
@@ -77,14 +79,16 @@ const PositionHandler: FC<PositionHandlerProps> = ({ target, activeRoute }) => {
     }
     if (target) setTransitionSteps(30);
   }, [target]);
+
+  console.log(activeRoute);
   return (
     <>
       <OrbitControls target={currentTarget} />
       <mesh position={[target[0] + 0.3, target[1] + 0.3, target[2] + 0.3]}>
         <Html distanceFactor={5}>
           {activeRoute && (
-            <div className='border-[#7aa2ff] font-bold uppercase text-[#acc5ff] py-8 px-16 border-2 rounded-xl text-4xl bg-[#7aa2ff65]'>
-              {activeRoute}
+            <div className='border-[#7aa2ff] font-bold uppercase text-[#acc5ff] px-16 py-4 border-2 rounded-xl text-4xl bg-[#7aa2ff65] min-w-[600px] flex justify-center'>
+              {activeRoute.name} - {grades[activeRoute.grade]}
             </div>
           )}
         </Html>
