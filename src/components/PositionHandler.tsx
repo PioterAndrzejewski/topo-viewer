@@ -21,7 +21,7 @@ const PositionHandler: FC<PositionHandlerProps> = ({ target, activeRoute }) => {
       setCameraSet(true);
     }
     if (transitionSteps < 1) return;
-    const diffStep = 0.3;
+    const diffStep = 0.05;
     const diff = {
       x: state.camera.position.x - target[0] * 1.6,
       y: state.camera.position.y - target[1] * 1.6,
@@ -87,7 +87,7 @@ const PositionHandler: FC<PositionHandlerProps> = ({ target, activeRoute }) => {
       <mesh position={[target[0] + 0.3, target[1] + 0.3, target[2] + 0.3]}>
         <Html distanceFactor={5}>
           {activeRoute && (
-            <div className='border-[#7aa2ff] font-bold uppercase text-[#acc5ff] px-16 py-4 border-2 rounded-xl text-4xl bg-[#7aa2ff65] min-w-[600px] flex justify-center'>
+            <div className='font-bold uppercase text-[#ffffffcd] px-16 py-4 rounded-xl text-4xl bg-[#7aa2ff65] min-w-[600px] flex justify-center'>
               {activeRoute.name} - {grades[activeRoute.grade]}
             </div>
           )}

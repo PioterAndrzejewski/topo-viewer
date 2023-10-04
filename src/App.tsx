@@ -1,4 +1,4 @@
-import { useState, Suspense, useEffect } from "react";
+import { useState, Suspense } from "react";
 import "./App.css";
 import { Canvas } from "@react-three/fiber";
 
@@ -27,7 +27,7 @@ function App() {
   return (
     <div className='h-screen w-full'>
       <Canvas>
-        <ambientLight intensity={0.4} />
+        <ambientLight intensity={2} />
         <directionalLight position={[0, 5, 5]} />
         <Suspense fallback={null}>
           <Rock
