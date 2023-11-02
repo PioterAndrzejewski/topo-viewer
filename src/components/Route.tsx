@@ -6,7 +6,7 @@ import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { apiUrl } from "../services/config";
 
 type RockProps = {
-  onClick: (name: string, target: [number, number, number]) => void;
+  onClick: (name: string | null, target: [number, number, number]) => void;
   name: string;
   isActive: boolean;
   ringsUrl: string;
@@ -71,7 +71,9 @@ const Route: FC<RockProps> = ({
         scale={1}
         onDoubleClick={(obj) => {
           obj.stopPropagation();
-          onClick(uuid, [obj.point.x, obj.point.y, obj.point.z]);
+          if (isActive)
+            return onClick(null, [obj.point.x, obj.point.y, obj.point.z]);
+          return onClick(uuid, [obj.point.x, obj.point.y, obj.point.z]);
         }}
       >
         <meshPhysicalMaterial
@@ -85,7 +87,9 @@ const Route: FC<RockProps> = ({
         scale={1}
         onDoubleClick={(obj) => {
           obj.stopPropagation();
-          onClick(uuid, [obj.point.x, obj.point.y, obj.point.z]);
+          if (isActive)
+            return onClick(null, [obj.point.x, obj.point.y, obj.point.z]);
+          return onClick(uuid, [obj.point.x, obj.point.y, obj.point.z]);
         }}
       >
         <meshPhysicalMaterial visible={false} />
@@ -94,8 +98,9 @@ const Route: FC<RockProps> = ({
         geometry={ringsGeometry}
         scale={1}
         onDoubleClick={(obj) => {
-          obj.stopPropagation();
-          onClick(uuid, [obj.point.x, obj.point.y, obj.point.z]);
+          if (isActive)
+            return onClick(null, [obj.point.x, obj.point.y, obj.point.z]);
+          return onClick(uuid, [obj.point.x, obj.point.y, obj.point.z]);
         }}
       >
         <meshPhysicalMaterial
@@ -110,6 +115,11 @@ const Route: FC<RockProps> = ({
           pathGeometry.boundingBox.y,
           pathGeometry.boundingBox.z,
         ]}
+        onDoubleClick={(obj) => {
+          if (isActive)
+            return onClick(null, [obj.point.x, obj.point.y, obj.point.z]);
+          return onClick(uuid, [obj.point.x, obj.point.y, obj.point.z]);
+        }}
       >
         {isActive ? (
           <Html distanceFactor={3}>

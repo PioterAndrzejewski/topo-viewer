@@ -4,10 +4,13 @@ import { Canvas } from "@react-three/fiber";
 
 import Rock from "./components/Rock";
 import Route from "./components/Route";
+import PositionHandler from "./components/PositionHandler";
 
+import { Coordinates } from "./types/types";
 import { useRock } from "./hooks/useRock";
 
 function App() {
+  const [target, setTarget] = useState<Coordinates>([0, 0, 0]);
   const [activeRoute, setActiveRoute] = useState<null | string>(null);
   const { modelUrl, materialUrl, routes } = useRock(
     window.location.pathname.split("/")[1],
@@ -25,10 +28,10 @@ function App() {
     };
   }, []);
 
-  const handleTargetChange = (
-    name: string | null
-  ) => {
-    setActiveRoute(name);
+  const handleTargetChange = (id: string | null, coordinates: Coordinates) => {
+    setActiveRoute(id);
+    setTarget(coordinates);
+    window.ReactNativeWebView.postMessage(id || "null");
   };
 
   return (
@@ -45,20 +48,23 @@ function App() {
           />
         </Suspense>
         {routes &&
-          routes.map((route, index) => (
-            <Suspense key={route.uuid}>
-              <Route
-                name={route.name}
-                uuid={route.uuid}
-                pathUrl={route.pathUrl}
-                ringsUrl={route.ringsUrl}
-                onClick={handleTargetChange}
-                isActive={route.uuid === activeRoute}
-                outlineUrl={route.outlineUrl}
-                index={index}
-              />
-            </Suspense>
-          ))}
+          routes.map((route, index) => {
+            return (
+              <Suspense key={route.uuid}>
+                <Route
+                  name={route.name}
+                  uuid={route.uuid}
+                  pathUrl={route.pathUrl}
+                  ringsUrl={route.ringsUrl}
+                  onClick={handleTargetChange}
+                  isActive={route.uuid === activeRoute}
+                  outlineUrl={route.outlineUrl}
+                  index={index}
+                />
+              </Suspense>
+            );
+          })}
+        <PositionHandler target={target} />
       </Canvas>
     </div>
   );
