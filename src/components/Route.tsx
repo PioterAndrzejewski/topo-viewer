@@ -12,11 +12,12 @@ type RockProps = {
   pathUrl: string;
   uuid: string;
   outlineUrl: string;
+  index: number;
 };
 
 const Route: FC<RockProps> = ({
   onClick,
-  name,
+  index,
   isActive,
   pathUrl,
   ringsUrl,

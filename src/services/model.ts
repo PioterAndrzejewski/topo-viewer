@@ -1,6 +1,5 @@
 import { urlConfig } from './config';
-import { authService } from './auth';
-import { Coordinates } from '../types/types';
+import axios from "axios";
 
 
 
@@ -187,7 +186,7 @@ type RockData = {
 }
 
 export const getRockData = async (id: string) => {
-  const { data: {data} } = await authService.get(
+  const { data: {data} } = await axios.get(
     urlConfig.rock.info(id)
   );
   return data[0] as RockData;

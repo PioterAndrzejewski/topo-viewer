@@ -38,7 +38,7 @@ function App() {
           />
         </Suspense>
         {routes &&
-          routes.map((route) => (
+          routes.map((route, index) => (
             <Suspense key={route.uuid}>
               <Route
                 name={route.name}
@@ -48,13 +48,17 @@ function App() {
                 onClick={handleTargetChange}
                 isActive={route.uuid === activeRoute}
                 outlineUrl={route.outlineUrl}
+                index={index}
               />
             </Suspense>
           ))}
         <PositionHandler
           target={target}
           activeRoute={
-            routes?.find((route) => route.uuid === activeRoute) || null
+            routes ? routes?.find((route) => route.uuid === activeRoute) : null
+          }
+          activeRouteIndex={
+            routes ? routes.findIndex((route) => route.uuid === activeRoute) : null
           }
         />
       </Canvas>

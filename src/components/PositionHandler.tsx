@@ -8,10 +8,15 @@ import { grades } from "../types/types";
 
 type PositionHandlerProps = {
   target: Coordinates;
-  activeRoute: RouteModelShortData | null;
+  activeRoute?: RouteModelShortData | null;
+  activeRouteIndex?: number | null;
 };
 
-const PositionHandler: FC<PositionHandlerProps> = ({ target, activeRoute }) => {
+const PositionHandler: FC<PositionHandlerProps> = ({
+  target,
+  activeRoute,
+  activeRouteIndex,
+}) => {
   const [transitionSteps, setTransitionSteps] = useState<number>(0);
   const [currentTarget, setCurrentTarget] = useState<Coordinates>(target);
   const [cameraSet, setCameraSet] = useState(false);
@@ -80,15 +85,15 @@ const PositionHandler: FC<PositionHandlerProps> = ({ target, activeRoute }) => {
     if (target) setTransitionSteps(30);
   }, [target]);
 
-  console.log(activeRoute);
+  console.log(activeRouteIndex);
   return (
     <>
       <OrbitControls target={currentTarget} />
-      <mesh position={[target[0] + 0.3, target[1] + 0.3, target[2] + 0.3]}>
-        <Html distanceFactor={5}>
+      <mesh position={[target[0], target[1], target[2] - 0.3]}>
+        <Html distanceFactor={3}>
           {activeRoute && (
-            <div className='font-bold uppercase text-[#ffffffcd] px-16 py-4 rounded-xl text-4xl bg-[#7aa2ff65] min-w-[600px] flex justify-center'>
-              {activeRoute.name} - {grades[activeRoute.grade]}
+            <div className='font-bold uppercase text-[#ffffffcd] px-6 py-10 rounded-xl text-7xl bg-[#5871aab3] flex justify-center'>
+              {typeof activeRouteIndex === 'number' ? activeRouteIndex + 1 : ''}
             </div>
           )}
         </Html>
