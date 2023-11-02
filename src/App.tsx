@@ -1,27 +1,34 @@
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import "./App.css";
 import { Canvas } from "@react-three/fiber";
 
 import Rock from "./components/Rock";
 import Route from "./components/Route";
-import PositionHandler from "./components/PositionHandler";
 
-import { Coordinates } from "./types/types";
 import { useRock } from "./hooks/useRock";
 
 function App() {
-  const [target, setTarget] = useState<Coordinates>([0, 0, 0]);
   const [activeRoute, setActiveRoute] = useState<null | string>(null);
   const { modelUrl, materialUrl, routes } = useRock(
-    "7bdea9b7-41c1-4d30-8894-663f6c9f25f2",
+    window.location.pathname.split("/")[1],
   );
 
+  useEffect(() => {
+    const messageHandler = (event: any) => {
+      if (event.data) return setActiveRoute(event.data);
+      setActiveRoute(null);
+    };
+    window.addEventListener("message", messageHandler);
+
+    return () => {
+      window.removeEventListener("message", messageHandler);
+    };
+  }, []);
+
   const handleTargetChange = (
-    name: string | null,
-    coordinates: Coordinates,
+    name: string | null
   ) => {
     setActiveRoute(name);
-    setTarget(coordinates);
   };
 
   return (
@@ -52,15 +59,6 @@ function App() {
               />
             </Suspense>
           ))}
-        <PositionHandler
-          target={target}
-          activeRoute={
-            routes ? routes?.find((route) => route.uuid === activeRoute) : null
-          }
-          activeRouteIndex={
-            routes ? routes.findIndex((route) => route.uuid === activeRoute) : null
-          }
-        />
       </Canvas>
     </div>
   );
